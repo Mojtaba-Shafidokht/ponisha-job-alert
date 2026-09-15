@@ -28,8 +28,7 @@ def run_scrape_cycle(headless=True):
     if new_projects:
         send_notification(new_projects)
 
-    merged = {**existing, **scraped}
-    save_data(merged)
+    save_data(scraped)
     reset_login_alert()
     return True
 
