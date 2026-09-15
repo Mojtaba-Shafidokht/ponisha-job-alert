@@ -225,7 +225,16 @@ def _retrieve_projects(wait):
     projects = {}
     for project in projects_elements:
         title = _field_text(project, ".//span[contains(@class, 'MuiTypography-h4')]")
-        desc = _field_text(project, ".//span[contains(@class, 'MuiTypography-subtitle1')]")
+        desc_element = _safe_find(
+            project,
+            ".//span[contains(@class, 'MuiTypography-subtitle1')"
+            " and not(ancestor::div[contains(@aria-label, 'فرصت انتخاب')])"
+            " and not(ancestor::div[contains(@aria-label, 'بودجه کارفرما')])"
+            " and not(ancestor::div[contains(@class, 'important')])"
+            " and not(ancestor::a)"
+            " and not(contains(., 'پیشنهاد') and string-length(normalize-space(.)) < 20)]"
+        )
+        desc = desc_element.get_attribute("textContent").strip() if desc_element else None
         skills = _visible_texts(project, ".//span[contains(@class, 'MuiTypography-subtitle2')][position()>1]")
 
         deadline = _first_visible_text(
