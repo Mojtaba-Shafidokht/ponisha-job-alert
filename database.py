@@ -10,7 +10,7 @@ def load_data():
 
     except Exception as e:
         print(f"Error occurred: {e}")
-        return False
+        return {}
 
 
 def save_data(data):
